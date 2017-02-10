@@ -1,0 +1,10 @@
+/* TODO File */
+
+- Add my randq stuff that i wrote for Darkbot.
+- Google and Weather functions.
+- Multi-channel mode within multi-server mode.
+- Custom memory handlers to keep track of memory as a statistic.
+- All AI integration
+- Multi-server mode
+- Integrate IUL into ISL struct for respective servers
+  in preparation for multi-server mode. 
