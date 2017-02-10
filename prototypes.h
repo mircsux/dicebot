@@ -87,6 +87,15 @@ struct 		ISL
 		
 }  *islhead;
 
+struct	players 
+{
+	char	nick	[30];
+	long	score;
+	long	playing;
+	struct 	players *next;
+}  	
+	*playershead;
+
 /* Internal User List */
 struct		IUL
 {
@@ -106,5 +115,6 @@ typedef	struct	config_struct	{
 	char	BOTSERV			[STRING_LONG];		/* My servers/ports/pass */
 	long	REJOIN_ON_KICK;						/* Rejoin on kick? */
 } Config;
+
 
 extern	Config *config;
