@@ -18,7 +18,9 @@ int		send_tog				= 0;
 int		SEND_DELAY 				= 1;
 int		BurstingWho				= 0;  /* Are we receiving a /who burst? */
 
-struct 	sendq 	*sendqhead = NULL, *sendqtail = NULL;
+struct 	sendq 		*sendqhead = NULL, *sendqtail = NULL;
 struct	IUL		*iulhead = NULL;
 struct	ISL		*islhead = NULL;
+struct	players		*playerhead = NULL;
+
 Config  *config = NULL;
