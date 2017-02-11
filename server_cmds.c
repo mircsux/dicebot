@@ -110,10 +110,10 @@ void		parse_privmsg		(int from_server, char *cmd, char *who, char *rest)
 	
 	command++;
 	
-	/* Propogate extra parameters or text. */
-	if ((params = strtok (NULL, "")) == NULL)
-		return;
-	
+	/* Propogate extra parameters or text. If this ends up being empty, 
+	   don't worry about. Some user commands require no parameters. */
+	params = strtok (NULL, "");
+
 	/* Check if this is a valid user command and act appropriately. */
 	if (try_user_command (command, chan, who, params) == 1)
 		return;
