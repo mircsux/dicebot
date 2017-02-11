@@ -106,8 +106,7 @@ void		parse_privmsg		(int from_server, char *cmd, char *who, char *rest)
 	if ((params = strtok (NULL, "")) == NULL)
 		return;
 	
-	printf (" command = %s chan = %s\n params = %s\n ", command, chan, params);
-
+	/* Check if this is a valid user command and act appropriately. */
 	if (try_user_command (command, chan, who, params) == 1)
 		return;
 		
