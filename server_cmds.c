@@ -108,6 +108,8 @@ void		parse_privmsg		(int from_server, char *cmd, char *who, char *rest)
 	if (*command != '!')
 		return;
 	
+	command++;
+	
 	/* Propogate extra parameters or text. */
 	if ((params = strtok (NULL, "")) == NULL)
 		return;
