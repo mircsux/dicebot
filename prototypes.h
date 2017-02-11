@@ -10,8 +10,8 @@ int		send_data				(int, char *);
 int		writeln					(const char *);
 int		readln 					(int);
 int		try_server_command		(int, char *, char *, char *);
-
-char		*strlwr 			(char *);
+int		try_user_command		(char *, char *, char *, char *);
+char	*strlwr 				(char *);
 int		register_bot			(void);
 int		get_sendq_count 		(long);
 int		Snow 					(const char *, ...);
@@ -21,6 +21,7 @@ char	*get_word				(int, char *, int);
 void    clear_sendq 			(long, long);
 void	S 						(const char *, ...);
 void	do_add_servers			(char *);
+void	do_roll					(char *, char *, char *, char *);
 void	add_iul_user			(char *, char *, char *, long);
 void	add_isl_server 			(char *, long, char *);
 void	del_iul_user 			(const char *, char *);
@@ -43,6 +44,7 @@ void	parse_who				(int, char *, char *, char *);
 void	parse_server_message	(int, fd_set *);
 void	prepare_bot				(void);
 void	printf_servers			(void);
+void	show_players			(char *);
 void	sig_alrm				(int);
 void	sig_hup					(int);
 void	sig_segv				(int);
@@ -91,10 +93,11 @@ struct	players
 {
 	char	nick	[30];
 	long	score;
+	long	all_time_score;
 	long	playing;
 	struct 	players *next;
 }  	
-	*playershead;
+	*playerhead;
 
 /* Internal User List */
 struct		IUL
@@ -113,8 +116,10 @@ typedef	struct	config_struct	{
 	char	BOTUSER			[STRING_SHORT];		/* My username */
 	char	BOTNAME			[STRING_SHORT];		/* My IRCNAME */
 	char	BOTSERV			[STRING_LONG];		/* My servers/ports/pass */
-	long	REJOIN_ON_KICK;						/* Rejoin on kick? */
+	char	SCORE_FILE		[STRING_LONG];		/* Location of saved scores. */
+	long	REJOIN_ON_KICK;					/* Rejoin on kick? */
 } Config;
 
 
 extern	Config *config;
+/* extern 	struct	players *playerhead; */
