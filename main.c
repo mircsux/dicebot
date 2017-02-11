@@ -85,14 +85,3 @@ int			main			(int argc, char **argv)
 	
 }
 
-char	* strlwr (char *buf)
-{
-        char *ptr = buf;
-
-        for (; ptr && *ptr; ++ptr)
-        {
-                *ptr = tolower (*ptr);
-        }
-        return buf;
-}
-

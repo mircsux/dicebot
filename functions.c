@@ -2,6 +2,17 @@
 
 #include "includes.h"
 
+char	* strlwr (char *buf)
+{
+        char *ptr = buf;
+
+        for (; ptr && *ptr; ++ptr)
+        {
+                *ptr = tolower (*ptr);
+        }
+        return buf;
+}
+
 void	stripline (char *ptr)
 {
         for (; ptr && *ptr; ++ptr)
