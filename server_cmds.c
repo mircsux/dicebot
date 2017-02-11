@@ -103,6 +103,11 @@ void		parse_privmsg		(int from_server, char *cmd, char *who, char *rest)
 	if (*command == ':')
 		command++;
 		
+	/* Check if there is a command character present, only act if so. */
+	if (*command != '!')
+		return;
+	
+	/* Propogate extra parameters or text. */
 	if ((params = strtok (NULL, "")) == NULL)
 		return;
 	
