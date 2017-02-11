@@ -54,6 +54,11 @@ int			do_config_set 		(const  int	opt, 	char *value)
 			do_add_servers (value);
 			return (1);
 		}
+		case C_SCOREFILE:
+		{
+			strncpy (config->SCORE_FILE, value, sizeof (config->SCORE_FILE));
+			return (1);
+		}
 		case C_BOTCHAN:
 		{
 			strncpy (config->BOTCHAN, value, sizeof (config->BOTCHAN));
