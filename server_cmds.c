@@ -43,6 +43,11 @@ int		register_bot		(void)
 	return (1);
 }
 
+/* try_user_command() searches the User command structure for the command
+   specified by cmd, runs it's corresponding function call and returns
+   1 for success, 0 for fail. Same for try_server_command, except that one
+   is obviously, for server commands. */
+   
 int		try_user_command		(char *cmd, char *chan, char *who, char *rest)
 {
 	int 	i = 0;
