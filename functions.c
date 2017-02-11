@@ -14,8 +14,7 @@ void	stripline (char *ptr)
         }
 }
 
-int
-stricmp (const char *s1, const char *s2)
+int		stricmp (const char *s1, const char *s2)
 {
         register int c = 0;
 

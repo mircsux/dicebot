@@ -20,6 +20,16 @@ struct {
 	{  NULL	,			NULL					}
 };
 
+struct {
+	char	*cmd;
+	void	(*func)(char *, char *, char *, char *);
+}   user_command[] =
+{
+	{ "ROLL",			do_roll					},
+	{  NULL,			NULL					}
+};
+
+
 void		prepare_servers		(void)
 {
 	
@@ -30,6 +40,23 @@ int		register_bot		(void)
 	Snow ("NICK %s\n", config->BOTNICK);
 	Snow ("USER %s %d %d :%s\n", config->BOTUSER, time(NULL), time(NULL), config->BOTNAME);
 	return (1);
+}
+
+int		try_user_command		(char *cmd, char *chan, char *who, char *rest)
+{
+	int 	i = 0;
+	
+	for (i = 0; user_command[i].cmd; i++)
+	{
+		if (stricmp (cmd, user_command[i].cmd) == 0)
+		{
+			user_command[i].func (cmd, chan, who, rest);
+			/* Success */
+			return (1);
+		}
+	}
+	/* No match */
+	return (0);
 }
 
 int		try_server_command		(int from_server, char *cmd, char *who, char *rest)
@@ -60,39 +87,30 @@ void		parse_privmsg		(int from_server, char *cmd, char *who, char *rest)
  */
 	char *chan = NULL;
 	char *command = NULL;
-        char *number = NULL;
-	char *dice_count = NULL;
-	long  count = 0, num = 0;
-
+	char	*params = NULL;
+	
 	if ((chan = strtok (rest, " ")) == NULL)
 		return;
 
+	/* Make sure we are dealing with a message from a CHANNEL USER. */
 	if (*chan != '#')
 		return;
 
 	if ((command = strtok (NULL, " ")) == NULL)
 		return;
 
+	/* Strip the leading ':' character if there is one. */
 	if (*command == ':')
 		command++;
-
-	if ((dice_count = strtok (command, "d")) == NULL)
+		
+	if ((params = strtok (NULL, "")) == NULL)
 		return;
 	
-	if ((count = strtol (dice_count, (char **) NULL, count)) < 1)
+	printf (" command = %s chan = %s\n params = %s\n ", command, chan, params);
+
+	if (try_user_command (command, chan, who, params) == 1)
 		return;
-
-	if ((number = strtok (NULL, "")) == NULL)
-		return;
-
-	if ((num = strtol (number, (char **) NULL, num)) < 1)
-		return;
-
-	printf ("count = %ld, num = %ld\n", count, num);
-
-	roll_dice (chan, count, num);
-
-
+		
 }
 
 void		parse_ping			(int from_server, char *cmd, char *who, char *rest)
@@ -123,7 +141,7 @@ void		parse_nick			(int fs, char *cmd, char *who, char *rest)
 void		parse_001			(int fs, char *cmd, char *who, char *rest)
 {
 	/* Use this to determine if we are successfully connected
-	   to a server.*/
+	   to a server. Do some stuff we do when connecting. */
 	   
 	   S ("JOIN :%s\n", config->BOTCHAN);
 }

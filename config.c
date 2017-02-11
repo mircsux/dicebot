@@ -8,18 +8,19 @@
 #define		C_BOTNAME		3
 #define		C_BOTSERV		4
 #define		C_BOTCHAN		5
-
+#define		C_SCOREFILE		6
 struct
 {
 	const	char	*opt;
 	const	int		c_value;
 }	cfg_opt [] =
 {
-	{	"BOTNICK",		C_BOTNICK			},
+	{   "BOTNICK",		C_BOTNICK			},
 	{   "BOTUSER",		C_BOTUSER			},
 	{   "BOTNAME",		C_BOTNAME			},
 	{   "BOTCHAN", 		C_BOTCHAN			},
 	{   "BOTSERV",		C_BOTSERV			},
+	{   "SCORE_FILE", 	C_SCOREFILE			},
 	{   NULL,			0					}
 };
 
