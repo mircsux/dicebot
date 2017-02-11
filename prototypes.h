@@ -21,6 +21,7 @@ char	*get_word				(int, char *, int);
 void    clear_sendq 			(long, long);
 void	S 						(const char *, ...);
 void	do_add_servers			(char *);
+void	do_info					(char *, char *, char *, char *);
 void	do_roll					(char *, char *, char *, char *);
 void	add_iul_user			(char *, char *, char *, long);
 void	add_isl_server 			(char *, long, char *);

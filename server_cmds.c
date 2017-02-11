@@ -1,4 +1,4 @@
-/* Commands from servers. */
+/* Commands from servers and users. */
 
 #include "includes.h"
 
@@ -26,6 +26,7 @@ struct {
 }   user_command[] =
 {
 	{ "ROLL",			do_roll					},
+	{ "INFO",			do_info					},
 	{  NULL,			NULL					}
 };
 
