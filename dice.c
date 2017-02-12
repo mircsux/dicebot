@@ -41,6 +41,18 @@ void	do_roll (char *cmd, char *chan, char *who, char *rest)
 
 }
 
+
+void	reinit_players (void)
+{
+	struct players	*c = playerhead;
+	
+	while (c != NULL)
+	{
+		c->playing = 0;
+		c = c->next;
+	}
+}
+
 void 	roll_dice (char *chan, long count, long num)
 {
 	long i = 0, j = 0, k = 0;

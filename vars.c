@@ -5,6 +5,7 @@
 long	CONNECT_WAIT_TIMEOUT	= 10;
 long	AIL666 					= 0;
 long	AIL8					= 0;
+long	timer					= 0;
 
 char	HOSTNAME[STRING_SHORT]	= "bifrost.ca.us.dal.net";
 char	VHOST	[STRING_SHORT]	= "0";

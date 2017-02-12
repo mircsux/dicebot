@@ -128,3 +128,18 @@ void		load_config		(char *file)
 	
 }
 
+/* Print things to a "filename" */
+
+void	my_log	(char	*filename, char *format,...)
+{
+	va_list		arglist;
+	FILE		*fp = NULL;
+	
+	if ((fp = fopen (filename, "a")) == NULL)
+		return;
+		
+	va_start 	(arglist, format);
+	vfprintf 	(fp, format, arglist);
+	va_end 		(arglist);
+	fclose		(fp);
+}

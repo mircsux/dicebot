@@ -8,7 +8,9 @@ void		sig_alrm (int unused)
 	alarmed = 1;
 	alarm (AIL);
 	AIL8 += AIL;
-
+	/* Increase seconds count. */
+	timer++;
+	
 	if (AIL8 >= SEND_DELAY)
 	{
 		AIL8 = 0;

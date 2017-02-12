@@ -19,6 +19,7 @@ int		stricmp 				(const char *, const char *);
 
 char	*get_word				(int, char *, int);
 void    clear_sendq 			(long, long);
+void	my_log					(char	*, char *,...);
 void	S 						(const char *, ...);
 void	do_add_servers			(char *);
 void	do_info					(char *, char *, char *, char *);
@@ -29,7 +30,9 @@ void	del_iul_user 			(const char *, char *);
 void	del_sendq 				(long);
 void	do_chanserv				(char *);
 void	load_config				(char *);
+
 void 	roll_dice				(char *, long, long);
+void	reinit_players 			(void);
 void	parse					(int, char *);
 void	parse_001				(int, char *, char *, char *);
 void	parse_error				(int, char *, char *, char *);
@@ -95,6 +98,7 @@ struct	players
 	char	nick	[30];
 	long	score;
 	long	all_time_score;
+	long 	rollnum;
 	long	playing;
 	struct 	players *next;
 }  	
@@ -124,3 +128,4 @@ typedef	struct	config_struct	{
 
 extern	Config *config;
 /* extern 	struct	players *playerhead; */
+extern	long	timer;		/* Internal timer counter */
