@@ -2,18 +2,41 @@
 
 #include "includes.h"
 
-void 	show_players (char *chan)
+int		is_playing 		(char	*who)
 {
-	/* Show list of players */
-	struct players 	*c = NULL;
-	
+	/* Check if player is playing. Return 1 if so, 0 if not */
+	struct 	players *c = NULL;
+
 	c = playerhead;
 	
 	while (c != NULL)
 	{
-		/* Go through the list of players, do stuff accordingly */
-		
+		if (c->playing == 1)
+			return (1);
+			
+		c = c->next;
 	}
+	
+	/* No match. */
+	return (0);
+}
+	
+void 	show_players (char *chan)
+{
+	/* Show list of players */
+	struct players 	*c = playerhead;
+	
+	if (c == NULL)
+	{
+		S ("PRIVMSG %s :There are no players.\n", chan);
+		return;
+	}
+	while (c != NULL)
+    {
+		/* Go through the list of players, do stuff accordingly */
+		S ("PRIVMSG %s :%s is playing.\n", chan, c->nick);
+		c = c->next;
+	}	
 	
 }	
 
@@ -23,6 +46,12 @@ void	do_roll (char *cmd, char *chan, char *who, char *rest)
 	char *dice_count = NULL;
 	long  count = 0, num = 0;
 
+	if ((is_playing (who)) == 0)
+	{
+		S ("PRIVMSG %s :%s is not playing.\n", chan, who);
+		return;
+	}
+	
 	if ((dice_count = strtok (rest, "d")) == NULL)
 		return;
 	
@@ -44,6 +73,9 @@ void	do_roll (char *cmd, char *chan, char *who, char *rest)
 
 void	reinit_players (void)
 {
+	/* Zero everything at the beginning of the round to start
+	   fresh. */
+	 
 	struct players	*c = playerhead;
 	
 	while (c != NULL)
@@ -92,4 +124,42 @@ void 	roll_dice (char *chan, long count, long num)
 }
 		
 	
+void		register_player	(char *chan, char *who)
+{
+	struct 	players *n = NULL, *c = NULL;
+		
+	n = malloc (sizeof (struct players));
+
+	if (n == NULL) 
+	{
+		printf ("Memory allocation failure in register_player().\n");
+		return;
+	}
 	
+	memset 	(n, 0, sizeof (struct players));
+	
+	c = playerhead;
+
+	/* New User */
+	if (n != NULL)
+	{
+		n->next = NULL;
+
+		n->rollnum++;
+		n->playing = 1;
+		strncpy (n->nick, who, sizeof (n->nick));
+		n->next = NULL;
+		
+		if (playerhead == NULL)
+			playerhead = n;
+		else
+		{
+			c = playerhead;
+
+			while (c->next != NULL)
+				c = c->next;
+
+			c->next = n;
+		}
+	}
+} 

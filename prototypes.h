@@ -23,7 +23,6 @@ void	my_log					(char	*, char *,...);
 void	S 						(const char *, ...);
 void	do_add_servers			(char *);
 void	do_info					(char *, char *, char *, char *);
-void	do_roll					(char *, char *, char *, char *);
 void	add_iul_user			(char *, char *, char *, long);
 void	add_isl_server 			(char *, long, char *);
 void	del_iul_user 			(const char *, char *);
@@ -31,8 +30,13 @@ void	del_sendq 				(long);
 void	do_chanserv				(char *);
 void	load_config				(char *);
 
+void	do_roll					(char *, char *, char *, char *);
+void	do_play					(char *, char *, char *, char *);
 void 	roll_dice				(char *, long, long);
 void	reinit_players 			(void);
+void	register_player			(char *, char *);
+int		is_playing				(char *);
+
 void	parse					(int, char *);
 void	parse_001				(int, char *, char *, char *);
 void	parse_error				(int, char *, char *, char *);
@@ -68,6 +72,7 @@ extern	int		PORT;
 extern  int		send_tog;
 extern	int		SEND_DELAY;
 extern 	int		BurstingWho;
+extern	long	timer;		/* Internal timer counter */
 
 extern	struct sendq
 {
@@ -95,14 +100,13 @@ struct 		ISL
 
 struct	players 
 {
-	char	nick	[30];
+	char	nick	[STRING_LONG];
 	long	score;
 	long	all_time_score;
 	long 	rollnum;
 	long	playing;
 	struct 	players *next;
-}  	
-	*playerhead;
+}  	*playerhead;
 
 /* Internal User List */
 struct		IUL
@@ -127,5 +131,3 @@ typedef	struct	config_struct	{
 
 
 extern	Config *config;
-/* extern 	struct	players *playerhead; */
-extern	long	timer;		/* Internal timer counter */

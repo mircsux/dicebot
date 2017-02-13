@@ -32,7 +32,8 @@ void		sig_segv (int unused)
 	/* Grab our pid number */
 	p = getpid ();
 	
-	printf (".: Aborting process %ld, SIG_SEGV.\n", p);
+	S ("QUIT :Caught signal SIG_SEGV (Segmentation Fault). We are bailing.\n");
+	printf ("... SIG_SEGV\n");
 	
 	if (fork () > 0)
 	{
