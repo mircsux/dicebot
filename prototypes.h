@@ -16,7 +16,6 @@ int		register_bot			(void);
 int		get_sendq_count 		(long);
 int		Snow 					(const char *, ...);
 int		stricmp 				(const char *, const char *);
-
 char	*get_word				(int, char *, int);
 void    clear_sendq 			(long, long);
 void	my_log					(char	*, char *,...);
@@ -32,9 +31,10 @@ void	load_config				(char *);
 
 void	do_roll					(char *, char *, char *, char *);
 void	do_play					(char *, char *, char *, char *);
-void 	roll_dice				(char *, long, long);
+void 	roll_dice				(char *, char *who, long, long);
 void	reinit_players 			(void);
-void	register_player			(char *, char *);
+void	register_player			(char *, char *, long);
+void	remove_player 			(char *);
 int		is_playing				(char *);
 
 void	parse					(int, char *);
@@ -61,11 +61,14 @@ void	stripline 				(char *);
 extern	long	CONNECT_WAIT_TIMEOUT;
 extern	long	AIL666;
 extern	long	AIL8;
+extern	time_t	Start_Time;
 
 extern	char	HOSTNAME		[STRING_SHORT];
 extern	char	VHOST			[STRING_SHORT];
 extern	char	MYNICK			[STRING_SHORT];
 extern	char	myline			[STRING_SHORT];
+extern	char	*my_uptime		(char	*, time_t);
+
 extern	int		alarmed;
 extern	int		sockfd;
 extern	int		PORT;
@@ -104,6 +107,7 @@ struct	players
 	long	score;
 	long	all_time_score;
 	long 	rollnum;
+	long	rolltotal;
 	long	playing;
 	struct 	players *next;
 }  	*playerhead;
@@ -118,6 +122,13 @@ struct		IUL
 	long	idle;
 	struct	IUL *next;
 }   *iulhead;
+
+typedef	struct 	player_rolls
+{
+	char 	strnum			[STRING_LONG]; 		/* Number in a string */
+	long	num;								/* Number form */
+	struct 	player_rolls *next;
+}	rolls;
 
 typedef	struct	config_struct	{
 	char	BOTNICK 		[STRING_SHORT];		/* My nickname */

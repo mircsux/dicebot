@@ -7,6 +7,8 @@ long	AIL666 					= 0;
 long	AIL8					= 0;
 long	timer					= 0;
 
+time_t	Start_Time				= 0;
+
 char	HOSTNAME[STRING_SHORT]	= "bifrost.ca.us.dal.net";
 char	VHOST	[STRING_SHORT]	= "0";
 char	MYNICK	[STRING_SHORT] 	= "mybot";

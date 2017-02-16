@@ -89,6 +89,26 @@ char	*get_word		(int num, char *str, int sep)
 	return (ptr);
 }
 
+char		*my_uptime	(char *str, time_t uptime)
+{
+	uptime = time (NULL) - Start_Time;
+	
+	if ((str = malloc (STRING_LONG)) == NULL)
+	{
+		printf ("Memory allocation failure in my_uptime.\n");
+		return (NULL);
+	}
+	
+	
+	sprintf (str, "%ld day%s %ld hour%s %ld min%s %ld second%s", 
+		uptime / 86400, (uptime / 86400 == 1) ? "" : "s",
+		(uptime / 3600), ((uptime / 3600) % 24) == 1 ? "" : "s",
+		(uptime / 60), ((uptime / 60) % 60) == 1 ? "" : "s",
+		uptime, (uptime == 1) ? "" : "s");
+		
+	return (str);
+
+}
 
 	
 	

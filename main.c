@@ -43,6 +43,8 @@ int			main			(int argc, char **argv)
 	printf ("Loading dat/setup.ini\n");
 	load_config ("dat/setup.ini");
 	
+	Start_Time = time (NULL);
+	
 	alarm (AIL);
 	prepare_bot ();
 	register_bot ();

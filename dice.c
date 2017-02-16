@@ -34,7 +34,7 @@ void 	show_players (char *chan)
 	while (c != NULL)
     {
 		/* Go through the list of players, do stuff accordingly */
-		S ("PRIVMSG %s :%s is playing.\n", chan, c->nick);
+		S ("PRIVMSG %s :%s is playing. Rolls: %ld\n", chan, c->nick, c->rollnum);
 		c = c->next;
 	}	
 	
@@ -66,7 +66,7 @@ void	do_roll (char *cmd, char *chan, char *who, char *rest)
 
 	printf ("count = %ld, num = %ld\n", count, num);
 
-	roll_dice (chan, count, num);
+	roll_dice (chan, who, count, num);
 
 }
 
@@ -85,18 +85,23 @@ void	reinit_players (void)
 	}
 }
 
-void 	roll_dice (char *chan, long count, long num)
+void 	roll_dice (char *chan, char *who, long count, long num)
 {
-	long i = 0, j = 0, k = 0;
+	long 	i = 0, j = 0, k = 0;
+	long	total = 0;
+	char	*ptr = NULL;
+	
+	struct players *c = playerhead;
+
+	rolls  *rolls;
 
 	/* Dice syntax = roll 1d100 */
 
 	char	DATA [STRING_LONG] = { "\0" };
 
-	/* Sanity check. */
-
 	srand (time (NULL));
 
+		/* Sanity check. */
 	if (*chan != '#')
 	{
 		S ("PRIVMSG %s :Sanity check failed!\n", chan);
@@ -111,8 +116,9 @@ void 	roll_dice (char *chan, long count, long num)
 
 	while (count-- > 0)
 	{
+		/* Need a positive number, no 0. */
 		i = (rand() % num) + 1;
-		j = j + i;
+		j =+ i;
 		k++;
 		sprintf (DATA, "%s%s%ld", DATA, (k == 0) ? "" : " ", i);
 			
@@ -120,11 +126,29 @@ void 	roll_dice (char *chan, long count, long num)
 			break;
 	}
 
-	S ("PRIVMSG %s :%ld (%s )\n", chan, j, DATA);
+	while (c)
+	{
+		if (stricmp (c->nick, who) == 0)
+		{
+			c->rollnum++;
+			c->rolltotal += j;
+			break;
+		}
+		c = c->next;
+	}
+
+	/* FIXME: Kludge to remove space from beginning of DATA. */
+	ptr = DATA;
+	if (*ptr == ' ')
+		ptr++;
+		
+	S ("PRIVMSG %s :%ld (%s)\n", chan, j, ptr);
+
+	register_player (chan, who, j);
 }
 		
 	
-void		register_player	(char *chan, char *who)
+void		register_player	(char *chan, char *who, long dice_total)
 {
 	struct 	players *n = NULL, *c = NULL;
 		
@@ -140,12 +164,30 @@ void		register_player	(char *chan, char *who)
 	
 	c = playerhead;
 
+	while (c)
+	{   /* Check for players already and update. */
+		if (stricmp (who, c->nick) == 0)
+		{
+			if (c->playing == 0)
+			{
+				c->playing = 1;
+				c->rollnum++;
+				c->rolltotal = dice_total;
+				return;
+			}
+			
+			return;
+		}
+		
+		c = c->next;
+	}
+	
 	/* New User */
 	if (n != NULL)
 	{
 		n->next = NULL;
 
-		n->rollnum++;
+		n->rollnum = 0;
 		n->playing = 1;
 		strncpy (n->nick, who, sizeof (n->nick));
 		n->next = NULL;
@@ -163,3 +205,33 @@ void		register_player	(char *chan, char *who)
 		}
 	}
 } 
+
+void		remove_player (char		*nick)
+{
+	struct 	players		*pNode, *pPrev, *sc;
+	
+	pNode = playerhead;
+	pPrev = NULL;
+	
+	while (pNode)
+	{
+		if (stricmp (pNode->nick, nick) == 0)
+		{
+			if (pPrev != NULL)
+			{
+				pPrev->next = pNode->next;
+			}
+			else
+				playerhead = pNode->next;
+			
+			free (pNode);
+			pNode = NULL;
+			break;
+		}
+		
+		pPrev = pNode;
+		pNode = pNode->next;
+	}
+}
+
+				
