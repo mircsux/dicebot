@@ -25,6 +25,6 @@ int		BurstingWho				= 0;  /* Are we receiving a /who burst? */
 struct 	sendq 		*sendqhead = NULL, *sendqtail = NULL;
 struct	IUL		*iulhead = NULL;
 struct	ISL		*islhead = NULL;
-struct  players *playerhead = NULL;
 
-Config  *config = NULL;
+Config  	*config = NULL;
+game_players	*players = NULL;

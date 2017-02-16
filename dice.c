@@ -5,9 +5,8 @@
 int		is_playing 		(char	*who)
 {
 	/* Check if player is playing. Return 1 if so, 0 if not */
-	struct 	players *c = NULL;
-
-	c = playerhead;
+	game_players *c = players;
+	c = players;
 	
 	while (c != NULL)
 	{
@@ -24,7 +23,7 @@ int		is_playing 		(char	*who)
 void 	show_players (char *chan)
 {
 	/* Show list of players */
-	struct players 	*c = playerhead;
+	game_players 	*c = players;
 	
 	if (c == NULL)
 	{
@@ -76,7 +75,7 @@ void	reinit_players (void)
 	/* Zero everything at the beginning of the round to start
 	   fresh. */
 	 
-	struct players	*c = playerhead;
+	game_players	*c = players;
 	
 	while (c != NULL)
 	{
@@ -92,7 +91,7 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 	long	total = 0;
 	char	*ptr = NULL;
 	
-	struct players *c = playerhead;
+	game_players *c = players;
 
 	rolls  *rolls;
 
@@ -152,9 +151,9 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 	
 void		register_player	(char *chan, char *who, long dice_total)
 {
-	struct 	players *n = NULL, *c = NULL;
-		
-	n = malloc (sizeof (struct players));
+	game_players *c = NULL, *n = NULL;
+	
+	n = malloc (sizeof (game_players));
 
 	if (n == NULL) 
 	{
@@ -162,9 +161,9 @@ void		register_player	(char *chan, char *who, long dice_total)
 		return;
 	}
 	
-	memset 	(n, 0, sizeof (struct players));
+	memset 	(n, 0, sizeof (game_players));
 	
-	c = playerhead;
+	c = players;
 
 	while (c)
 	{   /* Check for players already and update. */
@@ -194,11 +193,11 @@ void		register_player	(char *chan, char *who, long dice_total)
 		strncpy (n->nick, who, sizeof (n->nick));
 		n->next = NULL;
 		
-		if (playerhead == NULL)
-			playerhead = n;
+		if (players == NULL)
+			players = n;
 		else
 		{
-			c = playerhead;
+			c = players;
 
 			while (c->next != NULL)
 				c = c->next;
@@ -210,9 +209,10 @@ void		register_player	(char *chan, char *who, long dice_total)
 
 void		remove_player (char		*nick)
 {
-	struct 	players		*pNode, *pPrev, *sc;
+
+	game_players	*pNode = NULL, *pPrev = NULL, *sc = NULL;
 	
-	pNode = playerhead;
+	pNode = players;
 	pPrev = NULL;
 	
 	while (pNode)
@@ -224,7 +224,7 @@ void		remove_player (char		*nick)
 				pPrev->next = pNode->next;
 			}
 			else
-				playerhead = pNode->next;
+				players = pNode->next;
 			
 			free (pNode);
 			pNode = NULL;

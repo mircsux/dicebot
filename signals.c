@@ -5,8 +5,6 @@
 
 void		sig_alrm (int unused)
 {
-
-	
 	alarmed = 1;
 	alarm (AIL);
 	
@@ -42,6 +40,8 @@ void		sig_alrm (int unused)
 		RoundTimer = 0;
 		S ("PRIVMSG %s :Round_Timer = 0\n", config->BOTCHAN);
 	}
+	
+
 }
 
 void		sig_segv (int unused)

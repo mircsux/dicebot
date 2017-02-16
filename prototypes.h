@@ -103,7 +103,7 @@ struct 		ISL
 		
 }  *islhead;
 
-struct	players 
+typedef		struct	player_struct
 {
 	char	nick	[STRING_LONG];
 	long	score;
@@ -111,8 +111,11 @@ struct	players
 	long 	rollnum;
 	long	rolltotal;
 	long	playing;
-	struct 	players *next;
-}  	*playerhead;
+	long	last_roll_time;
+	int		my_turn;
+	
+	struct 	player_struct *next;
+}  	game_players;
 
 /* Internal User List */
 struct		IUL
@@ -144,3 +147,4 @@ typedef	struct	config_struct	{
 
 
 extern	Config *config;
+extern	game_players *players;
