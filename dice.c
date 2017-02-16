@@ -118,10 +118,10 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 	{
 		/* Need a positive number, no 0. */
 		i = (rand() % num) + 1;
-		j =+ i;
-		k++;
+		j += i;
 		sprintf (DATA, "%s%s%ld", DATA, (k == 0) ? "" : " ", i);
-			
+		
+		k++;	
 		if (strlen (DATA) >= STRING_LONG)
 			break;
 	}
@@ -132,6 +132,7 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 		{
 			c->rollnum++;
 			c->rolltotal += j;
+			k = c->rolltotal;
 			break;
 		}
 		c = c->next;
@@ -142,7 +143,7 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 	if (*ptr == ' ')
 		ptr++;
 		
-	S ("PRIVMSG %s :%ld (%s)\n", chan, j, ptr);
+	S ("PRIVMSG %s :%ld (%s)(Total: %ld)\n", chan, j, ptr, k);
 
 	register_player (chan, who, j);
 }
