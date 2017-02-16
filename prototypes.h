@@ -61,6 +61,8 @@ void	stripline 				(char *);
 extern	long	CONNECT_WAIT_TIMEOUT;
 extern	long	AIL666;
 extern	long	AIL8;
+extern	long	LastInput;
+extern	long	RoundTimer;
 extern	time_t	Start_Time;
 
 extern	char	HOSTNAME		[STRING_SHORT];

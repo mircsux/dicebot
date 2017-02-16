@@ -6,7 +6,8 @@ long	CONNECT_WAIT_TIMEOUT	= 10;
 long	AIL666 					= 0;
 long	AIL8					= 0;
 long	timer					= 0;
-
+long	LastInput				= 0;
+long	RoundTimer				= 0;
 time_t	Start_Time				= 0;
 
 char	HOSTNAME[STRING_SHORT]	= "bifrost.ca.us.dal.net";

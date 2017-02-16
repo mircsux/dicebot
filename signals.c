@@ -5,12 +5,25 @@
 
 void		sig_alrm (int unused)
 {
+
+	
 	alarmed = 1;
 	alarm (AIL);
-	AIL8 += AIL;
+	
 	/* Increase seconds count. */
 	timer++;
 	
+	LastInput += AIL;
+	if (LastInput >= 500)
+	{
+		LastInput = 0;
+		printf ("\nNo response from server in 5 mins, reconnecting.\n");
+		prepare_bot ();
+		register_bot();
+	}
+	
+	
+	AIL8 += AIL;
 	if (AIL8 >= SEND_DELAY)
 	{
 		AIL8 = 0;
@@ -23,6 +36,12 @@ void		sig_alrm (int unused)
 		S ("PING :%s\n", HOSTNAME);
 	}
 	
+	RoundTimer += AIL;
+	if (RoundTimer >= 60)
+	{
+		RoundTimer = 0;
+		S ("PRIVMSG %s :Round_Timer = 0\n", config->BOTCHAN);
+	}
 }
 
 void		sig_segv (int unused)

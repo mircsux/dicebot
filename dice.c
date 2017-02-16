@@ -87,6 +87,7 @@ void	reinit_players (void)
 
 void 	roll_dice (char *chan, char *who, long count, long num)
 {
+	/* count is number of dice, number of sides on dice */
 	long 	i = 0, j = 0, k = 0;
 	long	total = 0;
 	char	*ptr = NULL;
