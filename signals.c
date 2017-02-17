@@ -67,3 +67,9 @@ void	sig_hup 	(int unused)
 	printf (".: SIGHUP - Restarting the program.\n");
 	exit (0);
 }
+
+void	sig_int		(int unused)
+{
+	S ("PRIVMSG %s :Interrupted from the console. Show uptime here\n", config->BOTCHAN);
+	exit (0);
+}

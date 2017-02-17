@@ -37,6 +37,8 @@ void	reinit_players 			(void);
 void	register_player			(char *, char *, long);
 void	remove_player 			(char *);
 int		is_playing				(char *);
+long	get_num_players 		(void);
+char	*get_nick_from_who		(char *, char *);
 
 void	parse					(int, char *);
 void	parse_001				(int, char *, char *, char *);
@@ -57,6 +59,7 @@ void	show_players			(char *);
 void	sig_alrm				(int);
 void	sig_hup					(int);
 void	sig_segv				(int);
+void	sig_int					(int);
 void	stripline 				(char *);
 
 extern	long	CONNECT_WAIT_TIMEOUT;
@@ -104,20 +107,6 @@ struct 		ISL
 		
 }  *islhead;
 
-typedef		struct	player_struct
-{
-	char	nick	[STRING_LONG];
-	long	score;
-	long	all_time_score;
-	long 	rollnum;
-	long	rolltotal;
-	long	playing;
-	long	last_roll_time;
-	int		my_turn;
-	
-	struct 	player_struct *next;
-}  	game_players;
-
 /* Internal User List */
 struct		IUL
 {
@@ -129,11 +118,28 @@ struct		IUL
 	struct	IUL *next;
 }   *iulhead;
 
-typedef	struct 	player_rolls
-{
-	long	num;								/* Number form */
+typedef	struct 	dice_struct
+{ 	/* A linked list full of individual dice rolls. */
+	long	num1;								/* Number form */
 	struct 	player_rolls *next;
-}	rolls;
+}	dice;
+
+typedef		struct	player_struct
+{
+	char	nick	[STRING_LONG];
+	long	score;
+	long	all_time_score;
+	long 	rollnum;
+	long	rolltotal;
+	long	playing;
+	long	last_roll_time;
+	int		my_turn;
+	
+	dice	*current_roll;
+	dice	*kept_dice;
+	
+	struct 	player_struct *next;
+}  	game_players;
 
 typedef	struct	config_struct	{
 	char	BOTNICK 		[STRING_SHORT];		/* My nickname */

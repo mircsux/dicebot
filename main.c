@@ -31,10 +31,15 @@ int			main			(int argc, char **argv)
         sigemptyset (&newact.sa_mask);
         newact.sa_flags = 0;
         sigaction (SIGHUP, &newact, NULL);
+		newact.sa_handler = sig_int;
+		sigemptyset(&newact.sa_mask);
+		newact.sa_flags = 0;
+		sigaction (SIGINT, &newact, NULL);
 #else
         signal (SIGALRM, sig_alrm);
         signal (SIGSEGV, sig_segv);
         signal (SIGHUP, sig_hup);
+		signal (SIGINT, sig_int);
 #endif
 
 	printf ("[*** Ron's IRC Bot %s ***]\r\n", PACKAGE_VERSION);

@@ -39,35 +39,6 @@ void 	show_players (char *chan)
 	
 }	
 
-void	do_roll (char *cmd, char *chan, char *who, char *rest)
-{
-    char *number = NULL;
-	char *dice_count = NULL;
-	long  count = 0, num = 0;
-
-	if ((is_playing (who)) == 0)
-	{
-		S ("PRIVMSG %s :%s is not playing.\n", chan, who);
-		return;
-	}
-	
-	if ((dice_count = strtok (rest, "d")) == NULL)
-		return;
-	
-	if ((count = strtol (dice_count, (char **) NULL, count)) < 1)
-		return;
-
-	if ((number = strtok (NULL, "")) == NULL)
-		return;
-
-	if ((num = strtol (number, (char **) NULL, num)) < 1)
-		return;
-
-	printf ("count = %ld, num = %ld\n", count, num);
-
-	roll_dice (chan, who, count, num);
-
-}
 
 
 void	reinit_players (void)
@@ -92,8 +63,6 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 	char	*ptr = NULL;
 	
 	game_players *c = players;
-
-	rolls  *rolls;
 
 	/* Dice syntax = roll 1d100 */
 
@@ -193,6 +162,14 @@ void		register_player	(char *chan, char *who, long dice_total)
 		strncpy (n->nick, who, sizeof (n->nick));
 		n->next = NULL;
 		
+		n->kept_dice = malloc (sizeof (dice));
+		
+		if (n->kept_dice == NULL)
+		{
+			printf ("malloc failure in register_player!\n");
+			return;
+		}
+			
 		if (players == NULL)
 			players = n;
 		else
