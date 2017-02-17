@@ -1,5 +1,6 @@
 /* TODO File */
 
+- Make random player start game 
 - Add my randq stuff that i wrote for Darkbot.
 - Google and Weather functions.
 - Multi-channel mode within multi-server mode.
