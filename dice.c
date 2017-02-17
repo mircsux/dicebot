@@ -10,14 +10,14 @@ int		is_playing 		(char	*who)
 	
 	while (c != NULL)
 	{
-		if (c->playing == 1)
-			return (1);
+		if (c->playing == YES)
+			return (YES);
 			
 		c = c->next;
 	}
 	
 	/* No match. */
-	return (0);
+	return (NO);
 }
 	
 void 	show_players (char *chan)
