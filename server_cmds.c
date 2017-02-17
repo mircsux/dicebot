@@ -27,6 +27,7 @@ struct {
 {
 	{ "ROLL",			do_roll					},
 	{ "INFO",			do_info					},
+	{ "KEEP",			do_keep					},
 	{ "PLAY", 			do_play					},
 	{  NULL,			NULL					}
 };

@@ -31,6 +31,7 @@ void	load_config				(char *);
 
 void	do_roll					(char *, char *, char *, char *);
 void	do_play					(char *, char *, char *, char *);
+void	do_keep					(char *, char *, char *, char *);
 void 	roll_dice				(char *, char *who, long, long);
 void	reinit_players 			(void);
 void	register_player			(char *, char *, long);
@@ -130,7 +131,6 @@ struct		IUL
 
 typedef	struct 	player_rolls
 {
-	char 	strnum			[STRING_LONG]; 		/* Number in a string */
 	long	num;								/* Number form */
 	struct 	player_rolls *next;
 }	rolls;
