@@ -55,6 +55,64 @@ void	reinit_players (void)
 	}
 }
 
+int		add_player_dice	(char *who, long dnum, long num, long kept)
+{
+	game_players *c = players;
+	
+	if (dnum > 6)
+		return;
+		
+	while (c)
+	{
+		if (stricmp (c->nick, who) == 0)
+		{
+			switch (dnum)
+			{
+				case 1: 
+					if (kept == YES)
+						c->kept1 = num;
+					else
+						c->dice1 = num;
+					return (num);
+				case 2:
+					if (kept == YES)
+						c->kept2 = num;
+					else
+						c->dice2 = num;
+					return (num);
+				case 3:
+					if (kept == YES)
+						c->kept3 = num;
+					else
+						c->dice3 = num;
+					return (num);
+				case 4: 
+					if (kept == YES)
+						c->kept4 = num;
+					else
+						c->dice4 = num;
+					return (num);
+				case 5: 
+					if (kept == YES)
+						c->kept5 = num;
+					else
+						c->dice5 = num;
+					return (num);
+				case 6: 
+					if (kept == YES)
+						c->kept6 = num;
+					else
+						c->dice6 = num;
+					return (num);
+			}
+		}
+		
+		c = c->next;
+	}
+	/* Failure. */
+	return (0);
+}
+
 void 	roll_dice (char *chan, char *who, long count, long num)
 {
 	/* count is number of dice, number of sides on dice */
@@ -99,6 +157,7 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 		{
 			c->rollnum++;
 			c->rolltotal += j;
+			c->keep_since_roll = NO;
 			k = c->rolltotal;
 			break;
 		}

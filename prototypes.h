@@ -37,6 +37,7 @@ void	reinit_players 			(void);
 void	register_player			(char *, char *, long);
 void	remove_player 			(char *);
 int		is_playing				(char *);
+int		add_player_dice			(char *, long, long, long);
 long	get_num_players 		(void);
 char	*get_nick_from_who		(char *, char *);
 
@@ -129,7 +130,7 @@ typedef		struct	player_struct
 	long	playing;
 	long	last_roll_time;
 	int		my_turn;
-	int		keep_since_rolled;
+	int		keep_since_roll;
 	
 	int		dice1, dice2, dice3, dice4, dice5, dice6;
 	int		kept1, kept2, kept3, kept4, kept5, kept6;
