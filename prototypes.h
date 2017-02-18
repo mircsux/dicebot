@@ -118,11 +118,6 @@ struct		IUL
 	struct	IUL *next;
 }   *iulhead;
 
-typedef	struct 	dice_struct
-{ 	/* A linked list full of individual dice rolls. */
-	long	num1;								/* Number form */
-	struct 	player_rolls *next;
-}	dice;
 
 typedef		struct	player_struct
 {
@@ -134,9 +129,10 @@ typedef		struct	player_struct
 	long	playing;
 	long	last_roll_time;
 	int		my_turn;
+	int		keep_since_rolled;
 	
-	dice	*current_roll;
-	dice	*kept_dice;
+	int		dice1, dice2, dice3, dice4, dice5, dice6;
+	int		kept1, kept2, kept3, kept4, kept5, kept6;
 	
 	struct 	player_struct *next;
 }  	game_players;

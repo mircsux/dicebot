@@ -58,15 +58,13 @@ void	reinit_players (void)
 void 	roll_dice (char *chan, char *who, long count, long num)
 {
 	/* count is number of dice, number of sides on dice */
-	long 	i = 0, j = 0, k = 0;
-	long	total = 0;
-	char	*ptr = NULL;
-	
-	game_players *c = players;
+	long 			i = 0, j = 0, k = 0;
+	long			total = 0;
+	char			*ptr = NULL;
+	char			DATA [STRING_LONG] = { "\0" };	
+	game_players 	*c = players;
 
 	/* Dice syntax = roll 1d100 */
-
-	char	DATA [STRING_LONG] = { "\0" };
 
 	srand (time (NULL));
 
@@ -159,17 +157,12 @@ void		register_player	(char *chan, char *who, long dice_total)
 
 		n->rollnum = 0;
 		n->playing = 1;
+
+		n->kept1 = 0; n->kept2 = 0; n->kept3 = 0; n->kept4 = 0; n->kept5 = 0;
+
 		strncpy (n->nick, who, sizeof (n->nick));
 		n->next = NULL;
 		
-		n->kept_dice = malloc (sizeof (dice));
-		
-		if (n->kept_dice == NULL)
-		{
-			printf ("malloc failure in register_player!\n");
-			return;
-		}
-			
 		if (players == NULL)
 			players = n;
 		else

@@ -172,12 +172,6 @@ char		*my_uptime	(char *str, time_t uptime)
 		sprintf (str, "%s%ldsec%s", (mins > 0 ) ? str : "",
 			secs, secs == 1 ? "" : "s");
 			
-	/* sprintf (str, "%ld day%s %ld hour%s %ld min%s %ld second%s", 
-		uptime / 86400, (uptime / 86400 == 1) ? "" : "s",
-		(uptime / 3600), ((uptime / 3600) % 24) == 1 ? "" : "s",
-		(uptime / 60), ((uptime % 60) % 60) == 1 ? "" : "s",
-		(uptime % 60), ((uptime % 60) == 1) ? "" : "s");
-	*/
 	return (str);
 
 }
