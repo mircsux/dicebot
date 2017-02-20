@@ -6,8 +6,7 @@ int		is_playing 		(char	*who)
 {
 	/* Check if player is playing. Return 1 if so, 0 if not */
 	game_players *c = players;
-	c = players;
-	
+
 	while (c != NULL)
 	{
 		if (c->playing == YES)
@@ -19,7 +18,32 @@ int		is_playing 		(char	*who)
 	/* No match. */
 	return (NO);
 }
+
+int		is_keep_since_roll	(char	*who)
+{	
+	/* Check to see if this player is following the	roll, then keep
+	   scheme. Return YES if so, NO if not. */
+	   
+	game_players *c = players;
+
+	while (c)
+	{
+		if (stricmp (c->nick, who) == 0)
+		{
+			/* Make sure they're playing */
+			if (c->keep_since_roll == YES)
+				return (YES);
+			else
+				return (NO);
+		}
+		
+		c = c->next;
+	}
 	
+	/* No match */
+	return (NO);
+}
+
 void 	show_players (char *chan)
 {
 	/* Show list of players */
@@ -143,6 +167,9 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 	{
 		/* Need a positive number, no 0. */
 		i = (rand() % num) + 1;
+		
+		add_player_dice (who, count, i, NO);
+		
 		j += i;
 		sprintf (DATA, "%s%s%ld", DATA, (k == 0) ? "" : " ", i);
 		
