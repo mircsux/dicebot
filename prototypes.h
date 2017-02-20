@@ -42,7 +42,7 @@ int		add_player_dice			(char *, long, long, long);
 
 int		is_playing				(char *);
 int		is_keep_since_roll		(char *);
-
+void	update_keep_since_roll	(char *, int);
 long	get_num_players 		(void);
 char	*get_nick_from_who		(char *, char *);
 
@@ -124,6 +124,15 @@ struct		IUL
 	struct	IUL *next;
 }   *iulhead;
 
+typedef struct player_dice
+{
+	char	dstr  			[STRING_LONG];  	/* Dice in string */
+	long	dice;
+	long	num;
+	
+	struct player_dice	*next;
+}	dice;
+
 
 typedef		struct	player_struct
 {
@@ -137,6 +146,8 @@ typedef		struct	player_struct
 	int		my_turn;
 	int		keep_since_roll;
 	
+	dice	*this_roll;
+	dice	*kept_dice;
 	int		dice1, dice2, dice3, dice4, dice5, dice6;
 	int		kept1, kept2, kept3, kept4, kept5, kept6;
 	

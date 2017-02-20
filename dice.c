@@ -19,6 +19,23 @@ int		is_playing 		(char	*who)
 	return (NO);
 }
 
+void	update_keep_since_roll 	(char	*who, int yesno)
+{
+	/* Update keep_since_roll to be YES or NO on specified player */
+	game_players *c = players;
+	
+	while (c)
+	{
+		if (stricmp (c->nick, who) == 0)
+		{
+			c->keep_since_roll = yesno;
+			return;
+		}
+		c = c->next;
+		
+	}
+}
+
 int		is_keep_since_roll	(char	*who)
 {	
 	/* Check to see if this player is following the	roll, then keep
@@ -40,8 +57,8 @@ int		is_keep_since_roll	(char	*who)
 		c = c->next;
 	}
 	
-	/* No match */
-	return (NO);
+	/* Return -1 for NO MATCH */
+	return (-1);
 }
 
 void 	show_players (char *chan)
@@ -79,12 +96,35 @@ void	reinit_players (void)
 	}
 }
 
+
+int		add_dice		(char *who,	long dnum, long num, long kept)
+{
+	game_players *c = players;
+	dice		 *d = NULL;
+		
+	while (c) 
+	{
+		if (stricmp (c->nick, who) == 0)
+		{
+			if (kept == YES)
+				c->kept_dice = d;
+			else
+				c->this_roll = d;
+		}
+		
+		c = c->next;
+	}
+	
+	return (0);
+	
+}
+
 int		add_player_dice	(char *who, long dnum, long num, long kept)
 {
 	game_players *c = players;
 	
 	if (dnum > 6)
-		return;
+		return (-1);
 		
 	while (c)
 	{
@@ -199,6 +239,12 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 	S ("PRIVMSG %s :%ld (%s)(Total: %ld)\n", chan, j, ptr, k);
 
 	register_player (chan, who, j);
+	
+	/* Set kept since roll to no, anticpate a keep after this. Also
+	   update a keep timer eventually here. */
+	 
+	update_keep_since_roll (who, NO);
+	
 }
 		
 	
@@ -244,7 +290,10 @@ void		register_player	(char *chan, char *who, long dice_total)
 		n->rollnum = 0;
 		n->playing = 1;
 
-		n->kept1 = 0; n->kept2 = 0; n->kept3 = 0; n->kept4 = 0; n->kept5 = 0;
+		n->dice1 = 0; n->dice2 = 0; n->dice3 = 0;
+		n->dice4 = 0; n->dice5 = 0; n->dice6 = 0;
+		n->kept1 = 0; n->kept2 = 0; n->kept3 = 0; 
+		n->kept4 = 0; n->kept5 = 0; n->kept6 = 0;
 
 		strncpy (n->nick, who, sizeof (n->nick));
 		n->next = NULL;
