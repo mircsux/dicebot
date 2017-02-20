@@ -33,6 +33,7 @@ void	do_roll					(char *, char *, char *, char *);
 void	do_play					(char *, char *, char *, char *);
 void	do_keep					(char *, char *, char *, char *);
 
+
 void 	roll_dice				(char *, char *who, long, long);
 void	reinit_players 			(void);
 void	register_player			(char *, char *, long);
@@ -167,3 +168,5 @@ typedef	struct	config_struct	{
 
 extern	Config *config;
 extern	game_players *players;
+
+int		add_dice				(char *, dice *, long);

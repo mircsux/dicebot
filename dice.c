@@ -97,7 +97,7 @@ void	reinit_players (void)
 }
 
 
-int		add_dice		(char *who,	long dnum, long num, long kept)
+int		add_dice		(char *who,	dice *newdice, long kept)
 {
 	game_players *c = players;
 	dice		 *d = NULL;
@@ -106,15 +106,22 @@ int		add_dice		(char *who,	long dnum, long num, long kept)
 	{
 		if (stricmp (c->nick, who) == 0)
 		{
+			/* If updating kept dice, point accordingly. */
 			if (kept == YES)
+			{
 				c->kept_dice = d;
+				break;
+			}
 			else
+			{
 				c->this_roll = d;
+				break;
+			}
 		}
 		
 		c = c->next;
 	}
-	
+
 	return (0);
 	
 }
