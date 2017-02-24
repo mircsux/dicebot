@@ -200,11 +200,6 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 
 	register_player (chan, who, j);
 	
-	/* Set kept since roll to no, anticpate a keep after this. Also
-	   update a keep timer eventually here. */
-	 
-	update_keep_since_roll (who, NO);
-	
 }
 		
 	
