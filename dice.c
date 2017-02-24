@@ -96,92 +96,45 @@ void	reinit_players (void)
 	}
 }
 
-
-int		add_dice		(char *who,	dice *newdice, long kept)
+long	count_dice		(game_players *c, long num, long kept)
 {
-	game_players *c = players;
-	dice		 *d = NULL;
-		
-	while (c) 
+	int				i = 0;
+	int				dice = 0;
+	if (kept == YES)
 	{
-		if (stricmp (c->nick, who) == 0)
-		{
-			/* If updating kept dice, point accordingly. */
-			if (kept == YES)
-			{
-				c->kept_dice = d;
-				break;
-			}
-			else
-			{
-				c->this_roll = d;
-				break;
-			}
-		}
-		
-		c = c->next;
+		for (i = 0; c->kept[i] != 0; i++)
+			dice++;
+		return (dice);
 	}
-
-	return (0);
 	
-}
-
-int		add_player_dice	(char *who, long dnum, long num, long kept)
-{
-	game_players *c = players;
-	
-	if (dnum > 6)
-		return (-1);
+	for (i = 0; c->dice[i] != 0; i++)
+		dice++;
 		
+	return (dice);
+}
+		
+
+int		add_player_dice	(char *who, long num, long kept)
+{
+	/* Add dice to array, return number of dice in array.
+	   If num supplied is 0, return number of dice in array */
+  	char 			*ptr = NULL;
+	game_players 	*c = players;
+	
+	/* Sanity check */
+	if (num > 6)
+		return;
+	
+	
 	while (c)
 	{
 		if (stricmp (c->nick, who) == 0)
 		{
-			switch (dnum)
-			{
-				case 1: 
-					if (kept == YES)
-						c->kept1 = num;
-					else
-						c->dice1 = num;
-					return (num);
-				case 2:
-					if (kept == YES)
-						c->kept2 = num;
-					else
-						c->dice2 = num;
-					return (num);
-				case 3:
-					if (kept == YES)
-						c->kept3 = num;
-					else
-						c->dice3 = num;
-					return (num);
-				case 4: 
-					if (kept == YES)
-						c->kept4 = num;
-					else
-						c->dice4 = num;
-					return (num);
-				case 5: 
-					if (kept == YES)
-						c->kept5 = num;
-					else
-						c->dice5 = num;
-					return (num);
-				case 6: 
-					if (kept == YES)
-						c->kept6 = num;
-					else
-						c->dice6 = num;
-					return (num);
-			}
+			/* If num == 0, return number of dice. */
 		}
 		
 		c = c->next;
 	}
-	/* Failure. */
-	return (0);
 }
 
 void 	roll_dice (char *chan, char *who, long count, long num)
@@ -215,7 +168,7 @@ void 	roll_dice (char *chan, char *who, long count, long num)
 		/* Need a positive number, no 0. */
 		i = (rand() % num) + 1;
 		
-		add_player_dice (who, count, i, NO);
+		/* add_player_dice (who, count, i, NO); */
 		
 		j += i;
 		sprintf (DATA, "%s%s%ld", DATA, (k == 0) ? "" : " ", i);
@@ -292,16 +245,15 @@ void		register_player	(char *chan, char *who, long dice_total)
 	/* New User */
 	if (n != NULL)
 	{
+		int	*s = n->dice;
+		
 		n->next = NULL;
 
 		n->rollnum = 0;
 		n->playing = 1;
-
-		n->dice1 = 0; n->dice2 = 0; n->dice3 = 0;
-		n->dice4 = 0; n->dice5 = 0; n->dice6 = 0;
-		n->kept1 = 0; n->kept2 = 0; n->kept3 = 0; 
-		n->kept4 = 0; n->kept5 = 0; n->kept6 = 0;
-
+	
+		memset (s, 0, 6);
+		
 		strncpy (n->nick, who, sizeof (n->nick));
 		n->next = NULL;
 		

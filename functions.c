@@ -13,6 +13,14 @@ char	* strlwr (char *buf)
         return buf;
 }
 
+int		is_number	(char *buf)
+{
+	if (strspn (buf, "0123456789") == strlen (buf))
+		return (1);
+	return (0);
+}
+		
+	
 void	stripline (char *ptr)
 {
         for (; ptr && *ptr; ++ptr)

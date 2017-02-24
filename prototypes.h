@@ -16,6 +16,7 @@ int		register_bot			(void);
 int		get_sendq_count 		(long);
 int		Snow 					(const char *, ...);
 int		stricmp 				(const char *, const char *);
+int		is_number				(char *);
 char	*get_word				(int, char *, int);
 void    clear_sendq 			(long, long);
 void	my_log					(char	*, char *,...);
@@ -39,7 +40,7 @@ void	reinit_players 			(void);
 void	register_player			(char *, char *, long);
 
 void	remove_player 			(char *);
-int		add_player_dice			(char *, long, long, long);
+int		add_player_dice			(char *, long, long);
 
 int		is_playing				(char *);
 int		is_keep_since_roll		(char *);
@@ -146,12 +147,10 @@ typedef		struct	player_struct
 	long	last_roll_time;
 	int		my_turn;
 	int		keep_since_roll;
+	int		times_kept;
 	
-	dice	*this_roll;
-	dice	*kept_dice;
-	int		dice1, dice2, dice3, dice4, dice5, dice6;
-	int		kept1, kept2, kept3, kept4, kept5, kept6;
-	
+	int		dice	[6];	/* This roll */
+	int		kept	[6];	/* Kept dice */
 	struct 	player_struct *next;
 }  	game_players;
 
@@ -169,4 +168,7 @@ typedef	struct	config_struct	{
 extern	Config *config;
 extern	game_players *players;
 
+/* Declare this here at the end, since we need the "dice" declaration
+   to any sense of this first */
 int		add_dice				(char *, dice *, long);
+long	count_dice				(game_players *, long, long);
